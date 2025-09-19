@@ -70,33 +70,6 @@ services:
         networks:
             - monitoring
 
-    pgbench:
-        image: postgres:17
-        container_name: pgbench
-        environment:
-            DB_HOST: ${DB_HOST:-postgresql}
-            DB_PORT: ${DB_PORT:-5432}
-            DB_NAME: ${DB_NAME}
-            DB_USERNAME: ${DB_USERNAME}
-            DB_PASSWORD: ${DB_PASSWORD}
-            SCALE_FACTOR: ${SCALE_FACTOR:-10}
-            CLIENTS: ${CLIENTS:-10}
-            THREADS: ${THREADS:-4}
-            DURATION: ${DURATION:-60}
-            GRAFANA_PORT: ${GRAFANA_PORT:-3000}
-            PROMETHEUS_PORT: ${PROMETHEUS_PORT:-9090}
-        volumes:
-            - ./scripts:/scripts
-            - ./pgbench-sql:/pgbench-sql
-        depends_on:
-            postgresql:
-                condition: service_healthy
-        networks:
-            - monitoring
-        profiles:
-            - testing
-        command: tail -f /dev/null
-
 volumes:
     postgresql:
     prometheus:
